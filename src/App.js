@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import './App.css';
 import List from './components/List'
 import WithListLoading from './components/withListLoading'
+import axios from 'axios'
 
 function App() {
   const ListLoading =WithListLoading(List)
@@ -13,10 +14,16 @@ function App() {
   useEffect(() => {
     setAppState({loading:true})
     const apiUrl=`https://api.github.com/users/hacktivist123/repos`;
-    fetch(apiUrl)
-      .then((res)=>res.json())
-      .then((repos)=>{
-      setAppState({loading:false, repos:repos})
+    
+    // fetch(apiUrl)
+    //   .then((res)=>res.json())
+    //   .then((repos)=>{
+    //   setAppState({loading:false, repos:repos})
+    // })
+
+    axios.get(apiUrl).then((repos)=>{
+      const allRepos=repos.data
+      setAppState({loading:false, repos:allRepos})
     })
  
   }, [setAppState])
